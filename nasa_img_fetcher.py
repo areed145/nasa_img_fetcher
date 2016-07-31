@@ -30,14 +30,16 @@ for link in links:
     
 for sublink in sublinks:
     try:
-        imglinks.extend([site+a.get('href') for a in BeautifulSoup(urllib.request.urlopen(sublink).read()).find_all('a', href=re.compile('/Large/'))])
+        imglinks = [site+a.get('href') for a in BeautifulSoup(urllib.request.urlopen(sublink).read()).find_all('a', href=re.compile('/Large/'))]
+        
+        for imglink in imglinks:
+            if imglink[-3:] == 'jpg':
+                try:
+                    urllib.request.urlretrieve(imglink, imglink.rsplit('/',1)[1])
+                except:
+                    pass
     except:
         pass
     
-for imglink in imglinks:
-    if imglink[-3:] == 'jpg':
-        try:
-            urllib.request.urlretrieve(imglink, imglink.rsplit('/',1)[1])
-        except:
-            pass
+
     
